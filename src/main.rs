@@ -15,4 +15,6 @@ fn main() {
 
     let _log_handle = log4rs::init_config(log_config).unwrap();
 
+    info!("Running school puppy..");
+
 }

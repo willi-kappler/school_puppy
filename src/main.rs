@@ -2,6 +2,10 @@
 use log::{info, error, debug};
 use log4rs;
 
+mod main_menu;
+
+// TODO: Use fluent: https://github.com/projectfluent/fluent-rs/tree/master/fluent-resmgr
+
 fn main() {
 
     let file_logger = log4rs::append::file::FileAppender::builder()
@@ -17,4 +21,7 @@ fn main() {
 
     info!("Running school puppy..");
 
+    main_menu::MainMenu::new().run();
+
+    println!("Tschüß bis zum nächsten Mal!"); // Fluent
 }

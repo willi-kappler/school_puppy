@@ -14,6 +14,8 @@ edition = "2018"
 [dependencies]
 log = "0.4"
 log4rs = "0.8"
+rustyline = "5.0"
+crossterm = "0.13"
 
 [profile.release]
 lto = true

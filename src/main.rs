@@ -5,6 +5,7 @@ use log4rs;
 mod util;
 mod sp_error;
 mod main_menu;
+mod menu1;
 
 // TODO: Use fluent: https://github.com/projectfluent/fluent-rs/tree/master/fluent-resmgr
 
@@ -23,7 +24,7 @@ fn main() {
 
     info!("Running school puppy..");
 
-    match main_menu::main_menu() {
+    match main_menu::menu() {
         Ok(score) => {
             println!("Deine Punkte: {}", score); // Fluent
         }

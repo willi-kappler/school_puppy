@@ -1,14 +1,15 @@
-use std::io::{stdout, Write};
+use std::io::{stdout};
 
-use crossterm::{execute, ExecutableCommand};
+use crossterm::{ExecutableCommand};
 use crossterm::terminal::{Clear, ClearType};
 use log::{info, error, debug};
 
 use crate::sp_error::SPError;
 use crate::util::{input_number};
+use crate::menu1;
 
-pub fn main_menu() -> Result<u32, SPError> {
-    let mut score = 0;
+pub fn menu() -> Result<u32, SPError> {
+    let mut score: u32 = 0;
 
     loop {
         stdout().execute(Clear(ClearType::All)).map_err(|_| SPError::Crossterm)?;
@@ -32,6 +33,10 @@ pub fn main_menu() -> Result<u32, SPError> {
                 match number {
                     1 => {
                         debug!("Menu 1");
+                        match menu1::menu(score) {
+                            Ok(new_score) => score = new_score,
+                            Err(error) => error!("Error in menu1: {:?}", error),
+                        }
                     }
                     2 => {
                         debug!("Menu 2");

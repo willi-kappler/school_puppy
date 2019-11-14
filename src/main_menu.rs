@@ -3,78 +3,52 @@ use std::io::{stdout, Write};
 use crossterm::{execute, ExecutableCommand};
 use crossterm::terminal::{Clear, ClearType};
 use log::{info, error, debug};
-use rustyline::Editor;
 
+use crate::sp_error::SPError;
+use crate::util::{input_number};
 
-pub struct MainMenu {
-    score: u32,
-}
+pub fn main_menu() -> Result<u32, SPError> {
+    let mut score = 0;
 
-impl MainMenu {
-    pub fn new() -> Self {
-        MainMenu{score: 0}
-    }
+    loop {
+        stdout().execute(Clear(ClearType::All)).map_err(|_| SPError::Crossterm)?;
 
-    pub fn run(self) -> u32 {
-        let mut rl = Editor::<()>::new();
+        println!("Hauptmenü"); // Fluent
+        println!("Punktestand: {}", score); // Fluent
+        println!("Welches Fach möchtest du üben ?"); // Fluent
+        println!();
+        println!("1 - Mathe"); // Fluent
+        println!("2 - Deutsch"); // Fluent
+        println!("3 - Englisch"); // Fluent
+        println!();
+        println!("Bitte gebe eine Zahl ein oder 'x' zum Beenden:"); // Fluent
 
-        loop {
-            match stdout().execute(Clear(ClearType::All)) {
-                Ok(_) => {},
-                Err(error) => {
-                    error!("Error in main menu clear screen:  {:?}", error);
+        match input_number() {
+            Ok(None) => {
+                debug!("Exit from main menu");
+                break
+            }
+            Ok(Some(number)) => {
+                match number {
+                    1 => {
+                        debug!("Menu 1");
+                    }
+                    2 => {
+                        debug!("Menu 2");
+                    }
+                    3 => {
+                        debug!("Menu 3");
+                    }
+                    _ => {
+                        error!("Invalid number in main menu: {}", number);
+                    }
                 }
             }
-
-            println!("Hauptmenü"); // Fluent
-            println!("Punktestand: {}", self.score); // Fluent
-            println!("Welches Fach möchtest du üben ?"); // Fluent
-            println!();
-            println!("1 - Mathe"); // Fluent
-            println!("2 - Deutsch"); // Fluent
-            println!("3 - Englisch"); // Fluent
-            println!();
-            println!("Bitte gebe eine Zahl ein oder 'x' zum Beenden:"); // Fluent
-    
-            let line = rl.readline("-> ");
-
-            match line {
-                Ok(line) => {
-                    if line == "x" {
-                        debug!("Exit from main menu");
-                        break
-                    } else {
-                        match line.parse::<u32>() {
-                            Ok(n) => {
-                                match n {
-                                    1 => {
-                                        // self.score += Menu1::new().run();
-                                    }
-                                    2 => {
-                                        // self.score += Menu2::new().run();
-                                    }
-                                    3 => {
-                                        // self.score += Menu3::new().run();
-                                    }
-                                    _ => {
-                                        error!("Invalid choice in main menu: {}", n);
-                                    }
-                                }
-                            },
-                            Err(error) => {
-                                error!("Not a number in main menu: {}, {:?}", line, error);
-                            }
-                        }
-                    }
-                },
-                Err(error) => {
-                    error!("An error ocurred in main menu readline(): {:?}", error);
-                    break
-                }
+            Err(error) => {
+                error!("Error in main menu: {:?}", error);
             }
         }
-
-        self.score
     }
 
+    Ok(score)
 }

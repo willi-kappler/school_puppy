@@ -2,6 +2,8 @@
 use log::{info, error, debug};
 use log4rs;
 
+mod util;
+mod sp_error;
 mod main_menu;
 
 // TODO: Use fluent: https://github.com/projectfluent/fluent-rs/tree/master/fluent-resmgr
@@ -21,7 +23,14 @@ fn main() {
 
     info!("Running school puppy..");
 
-    main_menu::MainMenu::new().run();
-
+    match main_menu::main_menu() {
+        Ok(score) => {
+            println!("Deine Punkte: {}", score); // Fluent
+        }
+        Err(error) => {
+            error!("Error in main menu: {:?}", error);
+        }
+    }
+    
     println!("Tschüß bis zum nächsten Mal!"); // Fluent
 }

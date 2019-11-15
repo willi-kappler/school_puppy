@@ -9,6 +9,8 @@ mod menu1;
 
 // TODO: Use fluent: https://github.com/projectfluent/fluent-rs/tree/master/fluent-resmgr
 
+// TODO: Maybe use anyhow: https://github.com/dtolnay/anyhow
+
 fn main() {
 
     let file_logger = log4rs::append::file::FileAppender::builder()

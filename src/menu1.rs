@@ -114,7 +114,7 @@ fn menu1_2() -> u32 {
         match operation {
             0 => {
                 let result = num1 * num2;
-                let text = format!("Was ist {} * {} ?", num1, num2); // Fluent
+                let text = format!("Was ist {} × {} ?", num1, num2); // Fluent
                 let (points, quit) = math_exercise(result, &text);
 
                 score += points;
@@ -123,7 +123,7 @@ fn menu1_2() -> u32 {
             }
             1 => {
                 let result = num1 * num2;
-                let text = format!("Was ist {} / {} ?", result, num1); // Fluent
+                let text = format!("Was ist {} : {} ?", result, num1); // Fluent
                 let (points, quit) = math_exercise(num2, &text);
 
                 score += points;

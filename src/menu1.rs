@@ -56,94 +56,72 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
     Ok(score)
 }
 
-fn menu1_1() -> u32 {
+fn menu_template<F>(min1: i32, max1: i32, min2: i32, max2: i32, questions: Vec<F>) -> u32
+    where F: Fn(i32, i32) -> (u32, bool) {
+
     let mut score: u32 = 0;
     let mut rng = thread_rng();
-    let mut num1: i32 = 0;
-    let mut num2: i32 = 0;
+    let mut num1: i32;
+    let mut num2: i32;
+    let num_of_operations = questions.len();
 
     loop {
-        num1 = rng.gen_range(1, 50);
-        num2 = rng.gen_range(1, 50);
+        num1 = rng.gen_range(min1, max1);
+        num2 = rng.gen_range(min2, max2);
 
-        let operation: u8 = rng.gen_range(0, 2);
+        let operation: usize = rng.gen_range(0, num_of_operations);
+        let (points, quit) = questions[operation](num1, num2);
 
-        match operation {
-            0 => {
-                let result = num1 + num2;
-                let text = format!("Was ist {} + {} ?", num1, num2); // Fluent
-                let (points, quit) = math_exercise(result, &text);
+        score += points;
 
-                score += points;
-
-                if quit { break }
-            }
-            1 => {
-                if num2 > num1 {
-                    std::mem::swap(&mut num1, &mut num2);
-                }
-                let result = num1 - num2;
-                let text = format!("Was ist {} - {} ?", num1, num2); // Fluent
-                let (points, quit) = math_exercise(result, &text);
-
-                score += points;
-
-                if quit { break }
-            }
-            _ => {
-                error!("Unknown operation in menu 1.1: {}", operation)
-            }
-        }
+        if quit { break }
     }
 
     score
 }
 
+fn menu1_1() -> u32 {
+    let questions: Vec<Box<dyn Fn(i32, i32) -> (u32, bool)>> = vec![
+        Box::new(|num1, num2| {
+            let result = num1 + num2;
+            let text = format!("Was ist {} + {} ?", num1, num2); // Fluent
+            math_exercise(result, &text)
+        }),
+        Box::new(|mut num1, mut num2| {
+            if num2 > num1 {
+                std::mem::swap(&mut num1, &mut num2);
+            }
+            let result = num1 - num2;
+            let text = format!("Was ist {} - {} ?", num1, num2); // Fluent
+            math_exercise(result, &text)
+        })
+    ];
+
+    menu_template(1, 51, 1, 51, questions)
+}
+
 fn menu1_2() -> u32 {
-    let mut score: u32 = 0;
-    let mut rng = thread_rng();
-    let mut num1: i32 = 0;
-    let mut num2: i32 = 0;
+    let questions: Vec<Box<dyn Fn(i32, i32) -> (u32, bool)>> = vec![
+        Box::new(|num1, num2| {
+            let result = num1 * num2;
+            let text = format!("Was ist {} × {} ?", num1, num2); // Fluent
+            math_exercise(result, &text)
+        }),
+        Box::new(|num1, num2| {
+            let result = num1 * num2;
+            let text = format!("Was ist {} : {} ?", result, num1); // Fluent
+            math_exercise(num2, &text)
+        })
+    ];
 
-    loop {
-        num1 = rng.gen_range(1, 11);
-        num2 = rng.gen_range(1, 11);
-
-        let operation: u8 = rng.gen_range(0, 2);
-
-        match operation {
-            0 => {
-                let result = num1 * num2;
-                let text = format!("Was ist {} × {} ?", num1, num2); // Fluent
-                let (points, quit) = math_exercise(result, &text);
-
-                score += points;
-
-                if quit { break }
-            }
-            1 => {
-                let result = num1 * num2;
-                let text = format!("Was ist {} : {} ?", result, num1); // Fluent
-                let (points, quit) = math_exercise(num2, &text);
-
-                score += points;
-
-                if quit { break }
-            }
-            _ => {
-                error!("Unknown operation in menu 1.2: {}", operation)
-            }
-        }
-    }
-
-    score
+    menu_template(1, 11, 1, 11, questions)
 }
 
 fn math_exercise(result: i32, text: &str) -> (u32, bool) {
     let mut score = 0;
 
     loop {
-        println!("{}", text); // Fluent
+        println!("{}", text);
 
         match input_number() {
             Ok(None) => {

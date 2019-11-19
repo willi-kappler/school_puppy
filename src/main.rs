@@ -11,6 +11,8 @@ mod menu1;
 
 // TODO: Maybe use anyhow: https://github.com/dtolnay/anyhow
 
+// TODO: Allow to skip question
+
 fn main() {
 
     let file_logger = log4rs::append::file::FileAppender::builder()
@@ -29,6 +31,7 @@ fn main() {
     match main_menu::menu() {
         Ok(score) => {
             println!("Deine Punkte: {}", score); // Fluent
+            info!("Points: {}", score);
         }
         Err(error) => {
             error!("Error in main menu: {:?}", error);

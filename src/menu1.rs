@@ -1,10 +1,9 @@
 use std::io::{stdout};
 
-use crossterm::{ExecutableCommand};
-use crossterm::terminal::{Clear, ClearType};
+use crossterm::{ExecutableCommand, terminal::{Clear, ClearType}};
 use log::{info, error, debug};
-use rand::{thread_rng, Rng};
-use rand::rngs::ThreadRng;
+use rand::{thread_rng, Rng, rngs::ThreadRng};
+use chrono::{NaiveTime, Duration};
 
 use crate::sp_error::SPError;
 use crate::util::{input_number};
@@ -118,7 +117,7 @@ fn menu1_2() -> u32 {
             let result = num1 * num2;
             let text = format!("Was ist {} : {} ?", result, num1); // Fluent
             math_exercise(num2, &text)
-        })
+        }),
     ];
 
     menu_template(questions)
@@ -137,7 +136,31 @@ fn menu1_3() -> u32 {
             let result = num1 * 60;
             let text = format!("Wie viele Stunden sind {} Minuten ?", result); // Fluent
             math_exercise(num1, &text)
-        })
+        }),
+        Box::new(|rng| {
+            let hour = rng.gen_range(0, 24);
+            let minute1 = rng.gen_range(0, 60);
+            let minute2 = rng.gen_range(1, 120);
+            let time1 = NaiveTime::from_hms(hour, minute1, 0);
+            let offset = Duration::minutes(minute2);
+            let time2 = time1 + offset;
+
+
+            let text = format!("Wie viele Minuten liegen zwischen {} und {} ?", time1.format("%H:%M:%S"), time2.format("%H:%M:%S")); // Fluent
+            math_exercise(minute2 as i32, &text)
+        }),
+        Box::new(|rng| {
+            let hour1 = rng.gen_range(0, 24);
+            let hour2 = rng.gen_range(1, 20);
+            let minute = rng.gen_range(0, 60);
+            let time1 = NaiveTime::from_hms(hour1, minute, 0);
+            let offset = Duration::hours(hour2);
+            let time2 = time1 + offset;
+
+
+            let text = format!("Wie viele Stunden liegen zwischen {} und {} ?", time1.format("%H:%M:%S"), time2.format("%H:%M:%S")); // Fluent
+            math_exercise(hour2 as i32, &text)
+        }),
     ];
 
     menu_template(questions)

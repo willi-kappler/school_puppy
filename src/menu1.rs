@@ -4,9 +4,12 @@ use crossterm::{ExecutableCommand};
 use crossterm::terminal::{Clear, ClearType};
 use log::{info, error, debug};
 use rand::{thread_rng, Rng};
+use rand::rngs::ThreadRng;
 
 use crate::sp_error::SPError;
 use crate::util::{input_number};
+
+type Questions = Vec<Box<dyn Fn(&mut ThreadRng) -> (u32, bool)>>;
 
 pub fn menu(current_score: u32) -> Result<u32, SPError> {
     let mut score: u32 = current_score;
@@ -41,6 +44,7 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
                     }
                     3 => {
                         debug!("Menu 1.3");
+                        score += menu1_3();
                     }
                     _ => {
                         error!("Invalid number in menu1: {}", number);
@@ -56,21 +60,16 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
     Ok(score)
 }
 
-fn menu_template<F>(min1: i32, max1: i32, min2: i32, max2: i32, questions: Vec<F>) -> u32
-    where F: Fn(i32, i32) -> (u32, bool) {
+fn menu_template<F>(questions: Vec<F>) -> u32
+    where F: Fn(&mut ThreadRng) -> (u32, bool) {
 
     let mut score: u32 = 0;
     let mut rng = thread_rng();
-    let mut num1: i32;
-    let mut num2: i32;
     let num_of_operations = questions.len();
 
     loop {
-        num1 = rng.gen_range(min1, max1);
-        num2 = rng.gen_range(min2, max2);
-
         let operation: usize = rng.gen_range(0, num_of_operations);
-        let (points, quit) = questions[operation](num1, num2);
+        let (points, quit) = questions[operation](&mut rng);
 
         score += points;
 
@@ -81,13 +80,17 @@ fn menu_template<F>(min1: i32, max1: i32, min2: i32, max2: i32, questions: Vec<F
 }
 
 fn menu1_1() -> u32 {
-    let questions: Vec<Box<dyn Fn(i32, i32) -> (u32, bool)>> = vec![
-        Box::new(|num1, num2| {
+    let questions: Questions = vec![
+        Box::new(|rng| {
+            let num1 = rng.gen_range(1, 51);
+            let num2 = rng.gen_range(1, 51);
             let result = num1 + num2;
             let text = format!("Was ist {} + {} ?", num1, num2); // Fluent
             math_exercise(result, &text)
         }),
-        Box::new(|mut num1, mut num2| {
+        Box::new(|rng| {
+            let mut num1 = rng.gen_range(1, 51);
+            let mut num2 = rng.gen_range(1, 51);
             if num2 > num1 {
                 std::mem::swap(&mut num1, &mut num2);
             }
@@ -97,24 +100,47 @@ fn menu1_1() -> u32 {
         })
     ];
 
-    menu_template(1, 51, 1, 51, questions)
+    menu_template(questions)
 }
 
 fn menu1_2() -> u32 {
-    let questions: Vec<Box<dyn Fn(i32, i32) -> (u32, bool)>> = vec![
-        Box::new(|num1, num2| {
+    let questions: Questions = vec![
+        Box::new(|rng| {
+            let num1 = rng.gen_range(1, 11);
+            let num2 = rng.gen_range(1, 11);
             let result = num1 * num2;
             let text = format!("Was ist {} × {} ?", num1, num2); // Fluent
             math_exercise(result, &text)
         }),
-        Box::new(|num1, num2| {
+        Box::new(|rng| {
+            let num1 = rng.gen_range(1, 11);
+            let num2 = rng.gen_range(1, 11);
             let result = num1 * num2;
             let text = format!("Was ist {} : {} ?", result, num1); // Fluent
             math_exercise(num2, &text)
         })
     ];
 
-    menu_template(1, 11, 1, 11, questions)
+    menu_template(questions)
+}
+
+fn menu1_3() -> u32 {
+    let questions: Questions = vec![
+        Box::new(|rng| {
+            let num1 = rng.gen_range(1, 11);
+            let result = num1 * 60;
+            let text = format!("Wie viele Minuten sind {} Stunden ?", num1); // Fluent
+            math_exercise(result, &text)
+        }),
+        Box::new(|rng| {
+            let num1 = rng.gen_range(1, 11);
+            let result = num1 * 60;
+            let text = format!("Wie viele Stunden sind {} Minuten ?", result); // Fluent
+            math_exercise(num1, &text)
+        })
+    ];
+
+    menu_template(questions)
 }
 
 fn math_exercise(result: i32, text: &str) -> (u32, bool) {

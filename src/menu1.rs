@@ -2,7 +2,7 @@ use std::io::{stdout};
 
 use crossterm::{ExecutableCommand, terminal::{Clear, ClearType}};
 use log::{info, error, debug};
-use rand::{thread_rng, Rng, rngs::ThreadRng};
+use rand::{thread_rng, Rng, rngs::ThreadRng, seq::SliceRandom};
 use chrono::{NaiveTime, Duration};
 
 use crate::sp_error::SPError;
@@ -86,8 +86,15 @@ fn menu_template<F>(questions: Vec<F>) -> u32
 fn menu1_1() -> u32 {
     let questions: Questions = vec![
         Box::new(|rng| {
-            let num1 = rng.gen_range(1, 501);
-            let num2 = rng.gen_range(1, 501);
+            let mut num1 = rng.gen_range(1, 51);
+            let mut num2 = rng.gen_range(1, 51);
+
+            let factors = vec![1, 5, 10];
+            let factor = factors.choose(rng).unwrap();
+
+            num1 = num1 * factor;
+            num2 = num2 * factor;
+
             let result = num1 + num2;
             let text = format!("Was ist {} + {} ?", num1, num2); // Fluent
 
@@ -99,6 +106,12 @@ fn menu1_1() -> u32 {
             if num2 > num1 {
                 std::mem::swap(&mut num1, &mut num2);
             }
+            let factors = vec![1, 5, 10];
+            let factor = factors.choose(rng).unwrap();
+
+            num1 = num1 * factor;
+            num2 = num2 * factor;
+
             let result = num1 - num2;
             let text = format!("Was ist {} - {} ?", num1, num2); // Fluent
 

@@ -6,7 +6,7 @@ use rand::{thread_rng, Rng, rngs::ThreadRng};
 use chrono::{NaiveTime, Duration};
 
 use crate::sp_error::SPError;
-use crate::util::{input_number};
+use crate::util::{input_number, get_number, get_text};
 
 type Questions = Vec<Box<dyn Fn(&mut ThreadRng) -> (u32, bool)>>;
 
@@ -20,9 +20,10 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
         println!("Punktestand: {}", score); // Fluent
         println!("Welchen Bereich möchtest du üben ?"); // Fluent
         println!();
-        println!("1 - Plus und Minus"); // Fluent
-        println!("2 - Mal und Geteilt"); // Fluent
-        println!("3 - Uhrzeit"); // Fluent
+        println!("1 - +, -");
+        println!("2 - ×, :");
+        println!("3 - <, >, =");
+        println!("4 - Uhrzeit"); // Fluent
         println!();
         println!("Bitte gebe eine Zahl ein oder 'x' zum Beenden:"); // Fluent
 
@@ -44,6 +45,10 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
                     3 => {
                         debug!("Menu 1.3");
                         score += menu1_3();
+                    }
+                    4 => {
+                        debug!("Menu 1.4");
+                        score += menu1_4();
                     }
                     _ => {
                         error!("Invalid number in menu1: {}", number);
@@ -81,11 +86,12 @@ fn menu_template<F>(questions: Vec<F>) -> u32
 fn menu1_1() -> u32 {
     let questions: Questions = vec![
         Box::new(|rng| {
-            let num1 = rng.gen_range(1, 51);
-            let num2 = rng.gen_range(1, 51);
+            let num1 = rng.gen_range(1, 501);
+            let num2 = rng.gen_range(1, 501);
             let result = num1 + num2;
             let text = format!("Was ist {} + {} ?", num1, num2); // Fluent
-            math_exercise(result, &text)
+
+            get_number(result, &text)
         }),
         Box::new(|rng| {
             let mut num1 = rng.gen_range(1, 51);
@@ -95,7 +101,8 @@ fn menu1_1() -> u32 {
             }
             let result = num1 - num2;
             let text = format!("Was ist {} - {} ?", num1, num2); // Fluent
-            math_exercise(result, &text)
+
+            get_number(result, &text)
         })
     ];
 
@@ -109,14 +116,16 @@ fn menu1_2() -> u32 {
             let num2 = rng.gen_range(1, 11);
             let result = num1 * num2;
             let text = format!("Was ist {} × {} ?", num1, num2); // Fluent
-            math_exercise(result, &text)
+
+            get_number(result, &text)
         }),
         Box::new(|rng| {
             let num1 = rng.gen_range(1, 11);
             let num2 = rng.gen_range(1, 11);
             let result = num1 * num2;
             let text = format!("Was ist {} : {} ?", result, num1); // Fluent
-            math_exercise(num2, &text)
+
+            get_number(num2, &text)
         }),
     ];
 
@@ -126,16 +135,38 @@ fn menu1_2() -> u32 {
 fn menu1_3() -> u32 {
     let questions: Questions = vec![
         Box::new(|rng| {
+            let num1 = rng.gen_range(1, 1001);
+            let num2 = rng.gen_range(1, 1001);
+            let text = format!("{} _ {}", num1, num2);
+
+            if num1 > num2 {
+                get_text(">", &text)
+            } else if num1 < num2 {
+                get_text("<", &text)
+            } else {
+                get_text("=", &text)
+            }
+        }),
+    ];
+
+    menu_template(questions)
+}
+
+fn menu1_4() -> u32 {
+    let questions: Questions = vec![
+        Box::new(|rng| {
             let num1 = rng.gen_range(1, 11);
             let result = num1 * 60;
             let text = format!("Wie viele Minuten sind {} Stunden ?", num1); // Fluent
-            math_exercise(result, &text)
+
+            get_number(result, &text)
         }),
         Box::new(|rng| {
             let num1 = rng.gen_range(1, 11);
             let result = num1 * 60;
             let text = format!("Wie viele Stunden sind {} Minuten ?", result); // Fluent
-            math_exercise(num1, &text)
+
+            get_number(num1, &text)
         }),
         Box::new(|rng| {
             let hour = rng.gen_range(0, 24);
@@ -144,10 +175,9 @@ fn menu1_3() -> u32 {
             let time1 = NaiveTime::from_hms(hour, minute1, 0);
             let offset = Duration::minutes(minute2);
             let time2 = time1 + offset;
+            let text = format!("Wie viele Minuten liegen zwischen {} und {} ?", time1.format("%H:%M"), time2.format("%H:%M")); // Fluent
 
-
-            let text = format!("Wie viele Minuten liegen zwischen {} und {} ?", time1.format("%H:%M:%S"), time2.format("%H:%M:%S")); // Fluent
-            math_exercise(minute2 as i32, &text)
+            get_number(minute2 as i32, &text)
         }),
         Box::new(|rng| {
             let hour1 = rng.gen_range(0, 24);
@@ -156,39 +186,11 @@ fn menu1_3() -> u32 {
             let time1 = NaiveTime::from_hms(hour1, minute, 0);
             let offset = Duration::hours(hour2);
             let time2 = time1 + offset;
+            let text = format!("Wie viele Stunden liegen zwischen {} und {} ?", time1.format("%H:%M"), time2.format("%H:%M")); // Fluent
 
-
-            let text = format!("Wie viele Stunden liegen zwischen {} und {} ?", time1.format("%H:%M:%S"), time2.format("%H:%M:%S")); // Fluent
-            math_exercise(hour2 as i32, &text)
+            get_number(hour2 as i32, &text)
         }),
     ];
 
     menu_template(questions)
-}
-
-fn math_exercise(result: i32, text: &str) -> (u32, bool) {
-    let mut score = 0;
-
-    loop {
-        println!("{}", text);
-
-        match input_number() {
-            Ok(None) => {
-                debug!("Exit from menu 1.1");
-                return (score, true)
-            }
-            Ok(Some(number)) => {
-                if number == result {
-                    println!("Sehr gut, richtig!"); // Fluent
-                    score += 1;
-                    return (score, false)
-                } else {
-                    println!("Das stimmt leider nicht, versuch es bitte noch einmal."); // Fluent
-                }
-            }
-            Err(error) => {
-                error!("Error in menu 1.1: {:?}", error);
-            }
-        }
-    }
 }

@@ -1,0 +1,80 @@
+hello # hallo
+how are you? # wie geht es dir?
+Hello, my name is Manuel # Hallo mein Name ist Manuel
+What's your name? # Wie heißt du?
+I'm fine, thank you # Mir geht es gut, danke
+I like # Ich mag
+tennis # Tennis
+computer games # Computer Spiele
+basketball # Basketball
+football # Fußball
+swimming # Schwimmen
+dancing # Tanzen
+skateboarding # Skateboard fahren
+singing # singen
+inline skateing # Inliner fahren
+playing the piano # Klavier spielen
+playing the guitar # Gitarre spielen
+playing the harmonica # Mundharmonika spielen
+colors # Farben
+blue # blau
+green # grün
+yellow # gelb
+red # root
+purpel # lila
+orange # orange
+black # schwarz
+white # weiß
+grey # grau
+brown # braun
+pink # rosa
+school things # Schulsachen
+ruler # Lineal
+folder # Ordner, Schnellhefter
+glue stick # Klebestift
+scissors # Schere
+pencil sharper # Spitzer
+rubber # Radiergummi
+pencil # Bleistift
+pen # Füller
+book # Buch
+schoolbag # Schulranzen
+teacher # Lehrer, Lehrerin
+computer # Compiter
+pencil case # Mäppchen
+to draw # zeichnen
+to write # schreiben
+to read # lesen
+fill in # fülle aus
+in # in
+under # unter
+on # auf
+body and feelings # Körper und Gefühle
+knee, knees # das Knie, die Knie
+eye, eyes # das Auge, die Augen
+ear, ears # das Ohr, die Ohren
+shoulder, shoulders # die Schulter, die Schultern
+toe, toes # der Zeh, die Zehen
+head # der Kopf
+nose # die Nase
+mouth # der Mund
+stomach # der Bauch
+headache # die Kopfschmerzen
+to ache # etwas tut weh
+the # der, die, das
+strech your ... # strecke ... aus
+arm, arms # der Arm, die Arme
+hand, hands # die Hand, die Hände
+finger, fingers # der Finger, die Finger
+leg, legs # das Bein, die Beine
+foot, feet # der Fuß, die Füße
+face # Gesicht
+hair # Haare
+tooth, teeth # der Zahn, die Zähne
+open your # öffne dein,e
+shake your # schüttel dein,e
+go into # gehe ins
+wash your # wasche dein,e
+brush your # bürste dein,e
+to say # sagen
+to hurt # wehtun, verletzen

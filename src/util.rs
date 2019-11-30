@@ -64,7 +64,7 @@ pub fn get_text(result: &str, text: &str) -> (u32, bool) {
                 }
             }
             Err(error) => {
-                error!("Error in menu get_number: {:?}", error);
+                error!("Error in menu get_text: {:?}", error);
             }
         }
     }

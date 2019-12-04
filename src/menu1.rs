@@ -24,6 +24,7 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
         println!("2 - ×, :");
         println!("3 - <, >, =");
         println!("4 - Uhrzeit"); // Fluent
+        println!("5 - Längen"); // Fluent
         println!();
         println!("Bitte gebe eine Zahl ein oder 'x' zum Beenden:"); // Fluent
 
@@ -49,6 +50,10 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
                     4 => {
                         debug!("Menu 1.4");
                         score += menu1_4();
+                    }
+                    5 => {
+                        debug!("Menu 1.5");
+                        score += menu1_5();
                     }
                     _ => {
                         error!("Invalid number in menu1: {}", number);
@@ -207,3 +212,39 @@ fn menu1_4() -> u32 {
 
     menu_template(questions)
 }
+
+fn menu1_5() -> u32 {
+    let questions: Questions = vec![
+        Box::new(|rng| {
+            let num1 = rng.gen_range(1, 11);
+            let result = num1 * 100;
+            let text = format!("Wieviel cm sind {} m?", num1); // Fluent
+
+            get_number(result, &text)
+        }),
+        Box::new(|rng| {
+            let num1 = rng.gen_range(1, 11);
+            let result = num1;
+            let text = format!("Wieviel m sind {} cm?", num1 * 100); // Fluent
+
+            get_number(result, &text)
+        }),
+        Box::new(|rng| {
+            let num1 = rng.gen_range(1, 101);
+            let result = num1 * 10;
+            let text = format!("Wieviel mm sind {} cm?", num1); // Fluent
+
+            get_number(result, &text)
+        }),
+        Box::new(|rng| {
+            let num1 = rng.gen_range(1, 101);
+            let result = num1;
+            let text = format!("Wieviel cm sind {} mm?", num1 * 10); // Fluent
+
+            get_number(result, &text)
+        }),
+    ];
+
+    menu_template(questions)
+}
+

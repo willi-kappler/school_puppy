@@ -48,3 +48,7 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
 
     Ok(score)
 }
+
+fn menu3_1() -> u32 {
+    0
+}

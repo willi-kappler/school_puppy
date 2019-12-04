@@ -6,6 +6,7 @@ mod util;
 mod sp_error;
 mod main_menu;
 mod menu1;
+mod menu3;
 
 // TODO: Use fluent: https://github.com/projectfluent/fluent-rs/tree/master/fluent-resmgr
 

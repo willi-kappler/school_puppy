@@ -186,6 +186,7 @@ fn menu1_4() -> u32 {
 
             get_number(num1, &text)
         }),
+        /*
         Box::new(|rng| {
             let hour = rng.gen_range(0, 24);
             let minute1 = rng.gen_range(0, 60);
@@ -208,6 +209,7 @@ fn menu1_4() -> u32 {
 
             get_number(hour2 as i32, &text)
         }),
+        */
     ];
 
     menu_template(questions)
@@ -240,6 +242,28 @@ fn menu1_5() -> u32 {
             let num1 = rng.gen_range(1, 101);
             let result = num1;
             let text = format!("Wieviel cm sind {} mm?", num1 * 10); // Fluent
+
+            get_number(result, &text)
+        }),
+        Box::new(|rng| {
+            let num1 = rng.gen_range(1, 11);
+            let num2 = rng.gen_range(1, 10) * 100;
+            let num3 = 1000 - num2;
+            let num4 = rng.gen_range(1, 11);
+            let result = num1 + 1 + num4;
+            let text = format!("Wie lange ist die Reise: {} km + {} m + {} km + {} m ?", num1, num2, num4, num3); // Fluent
+
+            get_number(result, &text)
+        }),
+        Box::new(|rng| {
+            let num1 = rng.gen_range(1, 10) * 100;
+            let num2 = 1000 - num1;
+            let num3 = rng.gen_range(1, 10) * 100;
+            let num4 = 1000 - num3;
+            let num5 = rng.gen_range(1, 11);
+
+            let result = 2 + num5;
+            let text = format!("Wie lange ist die Reise: {} m + {} m + {} km + {} m + {} m ?", num4, num2, num5, num3, num1); // Fluent
 
             get_number(result, &text)
         }),

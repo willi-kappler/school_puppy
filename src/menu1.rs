@@ -251,7 +251,7 @@ fn menu1_5() -> u32 {
             let num3 = 1000 - num2;
             let num4 = rng.gen_range(1, 11);
             let result = num1 + 1 + num4;
-            let text = format!("Wie lange ist die Reise: {} km + {} m + {} km + {} m ?", num1, num2, num4, num3); // Fluent
+            let text = format!("Wie lange ist die Reise in km: {} km + {} m + {} km + {} m ?", num1, num2, num4, num3); // Fluent
 
             get_number(result, &text)
         }),
@@ -263,7 +263,7 @@ fn menu1_5() -> u32 {
             let num5 = rng.gen_range(1, 11);
 
             let result = 2 + num5;
-            let text = format!("Wie lange ist die Reise: {} m + {} m + {} km + {} m + {} m ?", num4, num2, num5, num3, num1); // Fluent
+            let text = format!("Wie lange ist die Reise in km: {} m + {} m + {} km + {} m + {} m ?", num4, num2, num5, num3, num1); // Fluent
 
             get_number(result, &text)
         }),

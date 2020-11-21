@@ -16,7 +16,7 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
     loop {
         stdout().execute(Clear(ClearType::All)).map_err(|_| SPError::Crossterm)?;
 
-        println!("Englischmenü"); // Fluent
+        println!("Deutschmenü"); // Fluent
         println!("Punktestand: {}", score); // Fluent
         println!("Welchen Bereich möchtest du üben ?"); // Fluent
         println!();
@@ -32,16 +32,16 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
             Ok(Some(number)) => {
                 match number {
                     1 => {
-                        debug!("Menu 3.1");
-                        score += menu3_1();
+                        debug!("Menu 2.1");
+                        score += menu2_1();
                     }
                     _ => {
-                        error!("Invalid number in menu3: {}", number);
+                        error!("Invalid number in menu2: {}", number);
                     }
                 }
             }
             Err(error) => {
-                error!("Error in menu3: {:?}", error);
+                error!("Error in menu2: {:?}", error);
             }
         }
     }
@@ -49,7 +49,7 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
     Ok(score)
 }
 
-fn menu3_1() -> u32 {
+fn menu2_1() -> u32 {
     todo!();
     0
 }

@@ -13,9 +13,9 @@ edition = "2018"
 
 [dependencies]
 log = "0.4"
-log4rs = "0.8"
-rustyline = "5.0"
-crossterm = "0.13"
+log4rs = "0.13"
+rustyline = "6.3"
+crossterm = "0.18"
 rand = "0.7"
 chrono = "0.4"
 

@@ -24,6 +24,7 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
         println!("2 - ×, :");
         println!("3 - <, >, =");
         println!("4 - Uhrzeit"); // Fluent
+        println!("5 - Gewicht"); // Fluent
         println!();
         println!("Bitte gebe eine Zahl ein oder 'x' zum Beenden:"); // Fluent
 
@@ -49,6 +50,10 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
                     4 => {
                         debug!("Menu 1.4");
                         score += menu1_4();
+                    }
+                    5 => {
+                        debug!("Menu 1.5");
+                        score += menu1_5();
                     }
                     _ => {
                         error!("Invalid number in menu1: {}", number);
@@ -86,14 +91,8 @@ fn menu_template<F>(questions: Vec<F>) -> u32
 fn menu1_1() -> u32 {
     let questions: Questions = vec![
         Box::new(|rng| {
-            let mut num1 = rng.gen_range(1, 51);
-            let mut num2 = rng.gen_range(1, 51);
-
-            let factors = vec![1, 5, 10];
-            let factor = factors.choose(rng).unwrap();
-
-            num1 = num1 * factor;
-            num2 = num2 * factor;
+            let mut num1 = rng.gen_range(1, 1001);
+            let mut num2 = rng.gen_range(1, 1001);
 
             let result = num1 + num2;
             let text = format!("Was ist {} + {} ?", num1, num2); // Fluent
@@ -101,16 +100,12 @@ fn menu1_1() -> u32 {
             get_number(result, &text)
         }),
         Box::new(|rng| {
-            let mut num1 = rng.gen_range(1, 51);
-            let mut num2 = rng.gen_range(1, 51);
+            let mut num1 = rng.gen_range(1, 1001);
+            let mut num2 = rng.gen_range(1, 1001);
+
             if num2 > num1 {
                 std::mem::swap(&mut num1, &mut num2);
             }
-            let factors = vec![1, 5, 10];
-            let factor = factors.choose(rng).unwrap();
-
-            num1 = num1 * factor;
-            num2 = num2 * factor;
 
             let result = num1 - num2;
             let text = format!("Was ist {} - {} ?", num1, num2); // Fluent
@@ -125,16 +120,16 @@ fn menu1_1() -> u32 {
 fn menu1_2() -> u32 {
     let questions: Questions = vec![
         Box::new(|rng| {
-            let num1 = rng.gen_range(1, 11);
-            let num2 = rng.gen_range(1, 11);
+            let num1 = rng.gen_range(2, 12);
+            let num2 = rng.gen_range(2, 12);
             let result = num1 * num2;
             let text = format!("Was ist {} × {} ?", num1, num2); // Fluent
 
             get_number(result, &text)
         }),
         Box::new(|rng| {
-            let num1 = rng.gen_range(1, 11);
-            let num2 = rng.gen_range(1, 11);
+            let num1 = rng.gen_range(2, 12);
+            let num2 = rng.gen_range(2, 12);
             let result = num1 * num2;
             let text = format!("Was ist {} : {} ?", result, num1); // Fluent
 
@@ -206,4 +201,9 @@ fn menu1_4() -> u32 {
     ];
 
     menu_template(questions)
+}
+
+fn menu1_5() -> u32 {
+    todo!();
+    0
 }

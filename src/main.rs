@@ -6,6 +6,8 @@ mod util;
 mod sp_error;
 mod main_menu;
 mod menu1;
+mod menu2;
+mod menu3;
 
 // TODO: Use fluent: https://github.com/projectfluent/fluent-rs/tree/master/fluent-resmgr
 
@@ -37,6 +39,6 @@ fn main() {
             error!("Error in main menu: {:?}", error);
         }
     }
-    
+
     println!("Tschüß bis zum nächsten Mal!"); // Fluent
 }

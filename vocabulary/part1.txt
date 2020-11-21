@@ -13,6 +13,8 @@ dancing # Tanzen
 skateboarding # Skateboard fahren
 singing # singen
 inline skateing # Inliner fahren
+riding a bike # Fahrrad fahren
+riding a horse # Auf einem Pferd reiten
 playing the piano # Klavier spielen
 playing the guitar # Gitarre spielen
 playing the harmonica # Mundharmonika spielen

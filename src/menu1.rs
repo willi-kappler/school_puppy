@@ -24,7 +24,8 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
         println!("2 - ×, :");
         println!("3 - <, >, =");
         println!("4 - Uhrzeit"); // Fluent
-        println!("5 - Gewicht"); // Fluent
+        println!("5 - Längen"); // Fluent
+        println!("6 - Gewicht"); // Fluent
         println!();
         println!("Bitte gebe eine Zahl ein oder 'x' zum Beenden:"); // Fluent
 
@@ -54,6 +55,10 @@ pub fn menu(current_score: u32) -> Result<u32, SPError> {
                     5 => {
                         debug!("Menu 1.5");
                         score += menu1_5();
+                    }
+                    6 => {
+                        debug!("Menu 1.6");
+                        score += menu1_6();
                     }
                     _ => {
                         error!("Invalid number in menu1: {}", number);
@@ -176,7 +181,6 @@ fn menu1_4() -> u32 {
 
             get_number(num1, &text)
         }),
-        /*
         Box::new(|rng| {
             let hour = rng.gen_range(0, 24);
             let minute1 = rng.gen_range(0, 60);
@@ -199,7 +203,6 @@ fn menu1_4() -> u32 {
 
             get_number(hour2 as i32, &text)
         }),
-        */
     ];
 
     menu_template(questions)
@@ -262,7 +265,7 @@ fn menu1_5() -> u32 {
     menu_template(questions)
 }
 
-fn menu1_5() -> u32 {
+fn menu1_6() -> u32 {
     todo!();
     0
 }

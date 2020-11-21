@@ -42,6 +42,10 @@ pub fn menu() -> Result<u32, SPError> {
                     }
                     2 => {
                         debug!("Menu 2");
+                        match menu2::menu(score) {
+                            Ok(new_score) => score = new_score,
+                            Err(error) => error!("Error in menu2: {:?}", error),
+                        }
                     }
                     3 => {
                         debug!("Menu 3");

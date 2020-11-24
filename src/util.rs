@@ -29,8 +29,10 @@ pub fn get_number(result: i32, text: &str) -> (u32, bool) {
             }
             Ok(Some(number)) => {
                 if number == result {
-                    println!("Sehr gut, richtig!"); // Fluent
                     score += 1;
+
+                    println!("Sehr gut, richtig! Deine Punkte: {}", score);  // Fluent
+
                     return (score, false)
                 } else {
                     println!("Das stimmt leider nicht, versuch es bitte noch einmal."); // Fluent

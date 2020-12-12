@@ -140,6 +140,7 @@ fn menu1_2() -> u32 {
 
             get_number(num2, &text)
         }),
+        /*
         Box::new(|rng| {
             let num1 = rng.gen_range(10, 1001) * 100;
             let num2 = rng.gen_range(2, 11);
@@ -148,6 +149,7 @@ fn menu1_2() -> u32 {
 
             get_number(num1, &text)
         }),
+        */
     ];
 
     menu_template(questions)

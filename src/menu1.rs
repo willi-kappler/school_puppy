@@ -87,6 +87,8 @@ fn menu_template<F>(questions: Vec<F>) -> u32
 
         score += points;
 
+        println!("Deine Punkte: {}", score);
+
         if quit { break }
     }
 
